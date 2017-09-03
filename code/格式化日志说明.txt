@@ -1,0 +1,33 @@
+系统调用号      系统调用
+0x4 			NtDeviceIoControl(主要用于网络)
+
+0xc 			NtClose(关闭文件)
+0x24   			NtSetInfortmationFile（用于删除文件或者重命名文件）
+0xb2 			NtDelete（删除文件）
+0x48 			NtFlushBufferFile（写文件是需要缓冲区，该系统调用的作用是当缓冲区满时刷新缓冲区的内容到文件）
+0x3 			NtReadFile（读文件）
+0x5     		NtWriteFile （写文件）
+0x30 			NtOpenFile（打开文件）
+0x52 			NtCreateFile（创建新的文件或者打开已有的文件）
+
+日志条目格式
+（1）
+[系统调用号,进程名,进程id,文件名,CreateOption,buffer_length,新文件名称,进程路径,时间]
+
+CreateOption只在NtCreateFile时有效，其他都为0
+buffer_length只在NtReadFile或者NtWriteFile时有效，其他为0
+新文件名称 只在NtSetInfortmationFile重命名文件时有效，其他为“”
+
+（2）
+以下只针对NtDeviceIoControl
+控制码为0x12003 0x12007
+[系统调用号,进程名,控制码（16进制）,网络类型（数字）,端口号,IP,进程路径,时间]
+
+控制码为0x1201f 0x12017
+[系统调用号,进程名,控制码（16进制）,input_buffer_length,output_buffer_length,接受或发送信息的长度,进程路径,时间]
+
+控制码为0x12023 0x1201b
+[系统调用号,进程名,控制码（16进制）,网络类型（数字）,端口号,IP,接受或发送信息的长度,进程路径,时间]
+
+控制码为 其他
+[系统调用号,进程名,控制码（16进制）,input_buffer_length,output_buffer_length,控制码对应的操作,进程路径,时间]
